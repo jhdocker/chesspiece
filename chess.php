@@ -84,6 +84,36 @@ class Chess
 		}
 		return $aMoves;
 	}
+
+	public function Queen($sPosition)
+	{
+
+		$startpoint = str_split($sPosition);
+		$aMoves = array();
+		
+		// letters
+		foreach($this->horizontal as $horizontal)
+		{
+			if($horizontal == $startpoint[0])
+			{
+				foreach ($this->verticle as $verticle) {
+					$aMoves[] = $horizontal.$verticle;
+				}
+			}
+		}
+		// numbers
+		foreach($this->verticle as $verticle)
+		{
+			if($verticle == $startpoint[1])
+			{
+
+				foreach ($this->horizontal as $horizontal) {
+					$aMoves[] = $horizontal.$verticle;
+				}
+			}
+		}
+		return $aMoves;
+	}
 }
 
 // class ChessFactory

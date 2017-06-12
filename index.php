@@ -10,29 +10,16 @@ $chess = new Chess;
 // 		foreach($chess->verticle as $verticle)
 // 			print($horizontal.': '.$verticle.'<br />');
 // 	}
-$chess->SetPosition('f3');
-$chess->SetPiece('Rook');
-$oRook = $chess->Rook($chess->GetPosition());
+$chess->SetPosition('a4');
+$chess->SetPiece('Queen');
+$oRook = $chess->Queen($chess->GetPosition());
 $sMoves = '';
 //$sVmoves = '';
 //print_r($oRook);
 foreach($oRook as $aRookMoves)
 {
     $sMoves.=$aRookMoves.' ';
-    //print $sMoves.' ';
 }
-// foreach($oRook['horizontal'] as $aData)
-// {
-//     //echo $aData.' ';
-//     $sHmoves .= ' '.$aData;
-// }
-// foreach($oRook['verticle'] as $aData)
-// {
-//     //echo $aData.' ';
-//     $sVmoves .= ' '.$aData;
-// }
-// print_r('Position: '.$chess->GetPosition());
-// print_r('Piece: '.$chess->SetPiece('Rook'));
 ?>
 <h1>This is the header </h1>
 <p><?php echo 'Position: '.$chess->GetPosition();?></p>

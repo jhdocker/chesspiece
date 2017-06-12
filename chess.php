@@ -101,6 +101,8 @@ class Chess
 				}
 			}
 		}
+		
+		
 		// numbers
 		foreach($this->verticle as $verticle)
 		{
@@ -109,6 +111,23 @@ class Chess
 
 				foreach ($this->horizontal as $horizontal) {
 					$aMoves[] = $horizontal.$verticle;
+				}
+			}
+		}
+		foreach($this->horizontal as $horizontal)
+		{
+			
+			if($horizontal == $startpoint[0])
+			{
+				foreach ($this->verticle as $verticle) {
+					if($verticle == $startpoint[1])
+					{
+						// $aMoves[] = $horizontal.$verticle;
+						$IncNum = $startpoint[1] ++;
+						$IncLetter = $startpoint[0] ++;
+						$aMoves[] = $IncLetter.$IncNum;
+					}
+					
 				}
 			}
 		}

@@ -10,10 +10,21 @@ class Chess
 		$horizontal = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H')
 	;
 
+	// public function Testing()
+	// {
+	// 	$oPiece = new ChessFactory;
+	// 	return $oPiece->CreateRook();
+
+	// }
 	public function SetPiece($sPiece)
 	{
 		if(in_array(strtoupper($sPiece), $this->aPieces))
+		{
 			$this->sChessPiece = $sPiece;
+			
+		}
+		
+
 	}
 
 	// Returns the chosen piece
@@ -42,5 +53,47 @@ class Chess
 		//print_r($this->position);
 		
 	}
+
+
+	public function Rook($sPosition)
+	{
+
+		$startpoint = str_split($sPosition);
+		$aMoves = array();
+		
+		// letters
+		foreach($this->horizontal as $horizontal)
+		{
+			if($horizontal == $startpoint[0])
+			{
+				foreach ($this->verticle as $verticle) {
+					$aMoves[] = $horizontal.$verticle;
+				}
+			}
+		}
+		// numbers
+		foreach($this->verticle as $verticle)
+		{
+			if($verticle == $startpoint[1])
+			{
+
+				foreach ($this->horizontal as $horizontal) {
+					$aMoves[] = $horizontal.$verticle;
+				}
+			}
+		}
+		return $aMoves;
+	}
 }
+
+// class ChessFactory
+// {
+// 	private $moves = '';
+
+// 	public function CreateRook()
+// 	{
+// 		$this->moves = array('horizontal', 'verticle');
+// 		return $this->moves;
+// 	} 
+// }
 

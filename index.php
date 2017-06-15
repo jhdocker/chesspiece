@@ -10,9 +10,11 @@ $chess = new Chess;
 // 		foreach($chess->verticle as $verticle)
 // 			print($horizontal.': '.$verticle.'<br />');
 // 	}
-$chess->SetPosition('a4');
+$chess->SetPosition('c4');
 $chess->SetPiece('Queen');
 $oRook = $chess->Queen($chess->GetPosition());
+//print_r($chess->Execute_Move());
+print_r($chess->Moves('++', '++', '++'));
 $sMoves = '';
 //$sVmoves = '';
 //print_r($oRook);

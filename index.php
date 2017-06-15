@@ -24,6 +24,7 @@ foreach($test['Queen'] as $value)
 	print_r($chess->Moves($splitStr[0], $splitStr[1]));
 	//print_r($splitStr[0].$splitStr[1]).'<br />';
 }
+
 $sMoves = '';
 //$sVmoves = '';
 //print_r($oRook);

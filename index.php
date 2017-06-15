@@ -14,7 +14,16 @@ $chess->SetPosition('c4');
 $chess->SetPiece('Queen');
 $oRook = $chess->Queen($chess->GetPosition());
 //print_r($chess->Execute_Move());
-print_r($chess->Moves('++', '++', '++'));
+//print_r($chess->Moves('negative', 'positive'));
+$test = $chess->CreateMoves('Queen');
+//print_r($test);
+
+foreach($test['Queen'] as $value)
+{
+	$splitStr = explode(' ', $value);
+	print_r($chess->Moves($splitStr[0], $splitStr[1]));
+	//print_r($splitStr[0].$splitStr[1]).'<br />';
+}
 $sMoves = '';
 //$sVmoves = '';
 //print_r($oRook);

@@ -16,7 +16,6 @@ $oRook = $chess->Queen($chess->GetPosition());
 //print_r($chess->Execute_Move());
 //print_r($chess->Moves('negative', 'positive'));
 $test = $chess->CreateMoves('Queen');
-//print_r($test);
 
 foreach($test['Queen'] as $value)
 {

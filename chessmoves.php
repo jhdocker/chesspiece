@@ -12,10 +12,11 @@ $position = $argv[2];
 $chess = new Chess;
 
 $chess->SetPosition($position);
+
 $chess->SetPiece($piece);
 $chessPiece = $chess->GetPiece();
 
-if($chessPiece != 'Invalid Piece')
+if($chessPiece != 'Invalid Piece' && $chess->GetPosition() != 'Invalid Position')
 {
 	$createMoves = $chess->CreateMoves($chessPiece);
 
@@ -45,7 +46,7 @@ if($chessPiece != 'Invalid Piece')
 }
 else
 {
-	print 'That is an invalid chess piece for this exercise. You Chose Poorly.... For Help please use argument --help ';
+	print 'That is an invalid piece or position for this exercise. For Help please use argument --help ';
 	exit();
 }
 

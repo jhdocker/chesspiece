@@ -5,7 +5,7 @@ class Chess
 		$aPieces = array('KNIGHT', 'ROOK', 'QUEEN'),
 		$position = array('horizontal' => '', 'verticle' => ''),
 		$sChessPiece = '',
-		$verticle = array('1','2','3','4','5','6','7','8'),
+		$verticle = array('1', '2', '3', '4', '5', '6', '7', '8'),
 		$horizontal = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H')
 	;
 
@@ -27,7 +27,10 @@ class Chess
 	// Returns the position of the current piece
 	public function GetPosition()
 	{
-		return $this->position['horizontal'].$this->position['verticle'];
+		if($this->position['horizontal'] != '' && $this->position['verticle'] != '')
+			return $this->position['horizontal'].$this->position['verticle'];
+		else
+			return 'Invalid Position';
 	}
 
 	// Set the position of the piece
@@ -37,7 +40,6 @@ class Chess
 		
 		if(in_array(strtoupper(strtoupper($pos[0])), $this->horizontal) && in_array($pos[1], $this->verticle))
 		{
-			//print_r('test');
 			$this->position['horizontal'] = strtoupper($pos[0]);
 			$this->position['verticle'] = $pos[1];
 		}

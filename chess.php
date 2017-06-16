@@ -1,38 +1,27 @@
 <?php	
 class Chess
 {
-
 	private 
 		$aPieces = array('KNIGHT', 'ROOK', 'QUEEN'),
 		$position = array('horizontal' => '', 'verticle' => ''),
 		$sChessPiece = '',
 		$verticle = array('1','2','3','4','5','6','7','8'),
 		$horizontal = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H')
-		
-		
 	;
 
-	// public function Testing()
-	// {
-	// 	$oPiece = new ChessFactory;
-	// 	return $oPiece->CreateRook();
-
-	// }
 	public function SetPiece($sPiece)
 	{
 		if(in_array(strtoupper($sPiece), $this->aPieces))
-		{
-			$this->sChessPiece = $sPiece;
-			
-		}
-		
-
+			$this->sChessPiece = strtoupper($sPiece);
 	}
 
-	// Returns the chosen piece
+	// Returns the chosen piece or error sting for the controller
 	public function GetPiece()
 	{
-		return $this->sChessPiece;
+		if($this->sChessPiece == '')
+			return 'Invalid Piece';
+		else
+			return $this->sChessPiece;
 	}
 
 	// Returns the position of the current piece
@@ -46,103 +35,23 @@ class Chess
 	{
 		$pos = str_split($sPosition);
 		
-		if(in_array(strtoupper($pos[0]), $this->horizontal) && in_array($pos[1], $this->verticle))
+		if(in_array(strtoupper(strtoupper($pos[0])), $this->horizontal) && in_array($pos[1], $this->verticle))
 		{
 			//print_r('test');
 			$this->position['horizontal'] = strtoupper($pos[0]);
 			$this->position['verticle'] = $pos[1];
 		}
-		//print_r($this->position);
-		
 	}
 
-
-	public function Rook($sPosition)
-	{
-
-		$startpoint = str_split($sPosition);
-		$aMoves = array();
-		
-		// letters
-		foreach($this->horizontal as $horizontal)
-		{
-			if($horizontal == $startpoint[0])
-			{
-				foreach ($this->verticle as $verticle) {
-					$aMoves[] = $horizontal.$verticle;
-				}
-			}
-		}
-		// numbers
-		foreach($this->verticle as $verticle)
-		{
-			if($verticle == $startpoint[1])
-			{
-
-				foreach ($this->horizontal as $horizontal) {
-					$aMoves[] = $horizontal.$verticle;
-				}
-			}
-		}
-		return $aMoves;
-	}
-
-	public function Queen($sPosition)
-	{
-
-		$startpoint = str_split($sPosition);
-		$aMoves = array();
-		
-		// letters
-		foreach($this->horizontal as $horizontal)
-		{
-			if($horizontal == $startpoint[0])
-			{
-				foreach ($this->verticle as $verticle) {
-					$aMoves[] = $horizontal.$verticle;
-				}
-			}
-		}
-		
-		
-		// numbers
-		foreach($this->verticle as $verticle)
-		{
-			if($verticle == $startpoint[1])
-			{
-
-				foreach ($this->horizontal as $horizontal) {
-					$aMoves[] = $horizontal.$verticle;
-				}
-			}
-		}
-		foreach($this->horizontal as $horizontal)
-		{
-			
-			if($horizontal == $startpoint[0])
-			{
-				foreach ($this->verticle as $verticle) {
-					if($verticle == $startpoint[1])
-					{
-						// $aMoves[] = $horizontal.$verticle;
-						$IncNum = $startpoint[1] ++;
-						$IncLetter = $startpoint[0] ++;
-						$aMoves[] = $IncLetter.$IncNum;
-					}
-					
-				}
-			}
-		}
-		return $aMoves;
-	}
-
-
+	// switch loop of the possible pieces
+	// probably not the best use of space but the positive negative
+	// terms refer to the move direction it can possibly use on an x-y axis
 	public function CreateMoves($sPiece)
 	{
 		$aMoves = array();
 		switch ($sPiece) {
-			case 'Queen':
-				$aMoves['Queen'] = array(
+			case 'QUEEN':
+				$aMoves['QUEEN'] = array(
 					'positive positive',
 					'positive negative',
 					'negative positive',
@@ -155,8 +64,8 @@ class Chess
 				return $aMoves;
 				break;
 
-			case 'Rook':
-				$aMoves['Rook'] = array(
+			case 'ROOK':
+				$aMoves['ROOK'] = array(
 					'stay positive',
 					'stay negative',
 					'negative stay',
@@ -166,28 +75,25 @@ class Chess
 				return $aMoves;
 				break;
 			
-			case 'Knight':
-				$aMoves['Knight'] = array(
-					'+2 +1',
-					'+1 +2',
-					'+2 -1',
-					'+1 -2',
-					'-2 +1',
-					'-1 +2',
-					'-2 -1',
-					'-1 -2',				
+			case 'KNIGHT':
+				$aMoves['KNIGHT'] = array(
+					'positive positive',
+					'positive negative',
+					'negative positive',
+					'negative negative',		
 				);
 				return $aMoves;
 				break;
 			default:
-				# code...
 				break;
-
-				//return $aMoves;
 		}
 	}
 
-	public function Moves($sHorizOperator, $sVertOperator)
+	/* 
+	* created two arrays for the horizontal movement (A,B,C,etc)
+	* first one refers to the second one's index. 
+	*/ 
+	public function Moves($sHorizOperator, $sVertOperator, $name)
 	{
 		$sPos = $this->GetPosition();
 		$startpoint = str_split($sPos);
@@ -219,92 +125,85 @@ class Chess
 			7 => '7', 
 			8 => '8');
 		
+		// set the piece startpoint variables
 		$x = $startpoint[0];
 		$y = $startpoint[1];
-		// print $preHorizontal[$x].$sHorizOperator;
-		// print $aVerticle[$y].$sVertOperator .'<br />';
-		$moves = array();
-		while($preHorizontal[$x] <= 8 && $preHorizontal[$x] >= 1 && $aVerticle[$y] <= 8 && $aVerticle[$y] >= 1)
-		{
 
-			$moves[] = $aHorizontal[$preHorizontal[$x]].$aVerticle[$y];
-			if($sHorizOperator=='positive')
-				$preHorizontal[$x]++;
-			if($sHorizOperator=='negative')
-				$preHorizontal[$x]--;
-			
-			if($sVertOperator=='positive')
-				$aVerticle[$y]++;
-			if($sVertOperator=='negative')
-				$aVerticle[$y]--;
+		$moves = array();
+		if($name == 'KNIGHT')
+		{	
+			// based on the direction, create the movement to the $moves array
+			$concat = $sHorizOperator . ' ' . $sVertOperator;
+			if($concat == 'positive positive')
+			{
+				$letter = $aVerticle[$y] + 1;	
+				$number = $preHorizontal[$x] + 2;
+				if($letter <= 8 && $number <= 8)
+					$moves[] = $aHorizontal[$number].$letter;
+
+				$letter = $aVerticle[$y] + 2;	
+				$number = $preHorizontal[$x] + 1;
+				if($letter <= 8 && $number <= 8)
+					$moves[] = $aHorizontal[$number].$letter;
+			}
+			if($concat == 'positive negative')
+			{
+				$letter = $aVerticle[$y] + 1;	
+				$number = $preHorizontal[$x] - 2;
+				if($letter <= 8 && $number >= 1)
+					$moves[] = $aHorizontal[$number].$letter;
+
+				$letter = $aVerticle[$y] + 2;	
+				$number = $preHorizontal[$x] - 1;
+				if($letter <= 8 && $number >= 1)
+					$moves[] = $aHorizontal[$number].$letter;
+			}
+			if($concat == 'negative negative')
+			{
+				$letter = $aVerticle[$y] - 1;	
+				$number = $preHorizontal[$x] - 2;
+				if($letter >= 1 && $number >= 1)
+					$moves[] = $aHorizontal[$number].$letter;
+
+				$letter = $aVerticle[$y] - 2;	
+				$number = $preHorizontal[$x] - 1;
+				if($letter >= 1 && $number >= 1)
+					$moves[] = $aHorizontal[$number].$letter;
+			}
+			if($concat == 'negative positive')
+			{
+				$letter = $aVerticle[$y] - 1;	
+				$number = $preHorizontal[$x] + 2;
+				if($letter >= 1 && $number <= 8)
+					$moves[] = $aHorizontal[$number].$letter;
+
+				$letter = $aVerticle[$y] - 2;	
+				$number = $preHorizontal[$x] + 1;
+				if($letter >= 1 && $number <= 8)
+					$moves[] = $aHorizontal[$number].$letter;
+			}
+		}
+		// the queen and rook are a little easier. we just loop through all of their
+		// possible directions until they hit their numerical limit
+		else
+		{
+			while($preHorizontal[$x] <= 8 && $preHorizontal[$x] >= 1 && $aVerticle[$y] <= 8 && $aVerticle[$y] >= 1)
+			{
+
+				$moves[] = $aHorizontal[$preHorizontal[$x]].$aVerticle[$y];
+				if($sHorizOperator=='positive')
+					$preHorizontal[$x]++;
+				if($sHorizOperator=='negative')
+					$preHorizontal[$x]--;
+				
+				if($sVertOperator=='positive')
+					$aVerticle[$y]++;
+				if($sVertOperator=='negative')
+					$aVerticle[$y]--;
+			}
 		}
 		return $moves;
 	}
-
-	public function MoveKnight($sHorizOperator, $sVertOperator)
-	{
-		$sPos = $this->GetPosition();
-		$startpoint = str_split($sPos);
-		$preHorizontal = array(
-			'A' => 1, 
-			'B' => 2, 
-			'C' => 3, 
-			'D' => 4, 
-			'E' => 5, 
-			'F' => 6, 
-			'G' => 7, 
-			'H' => 8);
-		$aHorizontal = array(
-			1 => 'A', 
-			2 => 'B', 
-			3 => 'C', 
-			4 => 'D', 
-			5 => 'E', 
-			6 => 'F', 
-			7 => 'G', 
-			8 => 'H');
-		$aVerticle = array(
-			1 => '1', 
-			2 => '2', 
-			3 => '3', 
-			4 => '4', 
-			5 => '5', 
-			6 => '6', 
-			7 => '7', 
-			8 => '8');
-		
-		$x = $startpoint[0];
-		$y = $startpoint[1];
-		// print $preHorizontal[$x].$sHorizOperator;
-		// print $aVerticle[$y].$sVertOperator .'<br />';
-		$moves = array();
-		// while($preHorizontal[$x] <= 8 && $preHorizontal[$x] >= 1 && $aVerticle[$y] <= 8 && $aVerticle[$y] >= 1)
-		// {
-
-		// 	$moves[] = $aHorizontal[$preHorizontal[$x]].$aVerticle[$y];
-		// 	if($sHorizOperator=='positive')
-		// 		$preHorizontal[$x]++;
-		// 	if($sHorizOperator=='negative')
-		// 		$preHorizontal[$x]--;
-			
-		// 	if($sVertOperator=='positive')
-		// 		$aVerticle[$y]++;
-		// 	if($sVertOperator=='negative')
-		// 		$aVerticle[$y]--;
-		// }
-		return 'its a knight';
-	}
-
-
 }
 
-// class ChessFactory
-// {
-// 	private $moves = '';
-// 	public function CreateRook()
-// 	{
-// 		$this->moves = array('horizontal', 'verticle');
-// 		return $this->moves;
-// 	} 
-// }
 
